@@ -1,0 +1,9 @@
+{
+  "apiKey": "AIzaSyBdcwe1viJKGTzrG9xXbOBk5lCIGnigX9c",
+  "authDomain": "voting-app-e28a7.firebaseapp.com",
+  "databaseURL": "https://voting-app-e28a7.firebaseio.com",
+  "projectId": "voting-app-e28a7",
+  "storageBucket": "voting-app-e28a7.appspot.com",
+  "messagingSenderId": "817523318406",
+  "appId": "1:817523318406:web:0c5a5c0450826d0d013b07"
+}
