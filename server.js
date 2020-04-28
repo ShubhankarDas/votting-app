@@ -6,11 +6,9 @@ const randomWords = require('random-words');
 const firebase = require('firebase/app');
 require('firebase/auth');
 require('firebase/database');
-require('firebase/storage');
 
 const firebaseConfig = require('./firebase_config.json');
 firebase.initializeApp(firebaseConfig);
-const storageRef = firebase.storage().ref();
 
 const jwt = require('jsonwebtoken');
 const jwtKey = 'my_secret_key';
@@ -146,7 +144,6 @@ const updateProfile = (req, res) => {
     profileUpdated: true,
   })
     .then(() => {
-      let imageRef = storageRef.child(`images/${req.user.userId}.jpg`);
       setCookie(
         { ...req.user, phone, address, ssn, profileUpdated: true },
         res
