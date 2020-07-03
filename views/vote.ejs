@@ -25,11 +25,12 @@
           <li class="active"><a>Vote</a></li>
           <li><a href="/profile">Profile</a></li>
           <li><a href="/logout">Logout</a></li>
+          <li id="donate-cta" class="donate__cta btn btn-success">Donate</li>
         </ul>
       </div>
     </nav>
     <% if (typeof(message) !=="undefined") { %> <%- include('partials/alert',
-    {message}); %> <% } %>
+    {message}); %> <% } %> <%- include('partials/donateModal'); %>
     <div
       class="global-container"
       style="width: 650px; margin: auto; padding-top: 50px;"

@@ -1,3 +1,5 @@
+MY_ADDRESS = '0x7912da25D8c8b10d1D4d27b7D3D9A459d23176cb';
+
 App = {
   web3Provider: null,
   contracts: {},
@@ -12,14 +14,19 @@ App = {
       // If a web3 instance is already provided by Meta Mask.
       App.web3Provider = web3.currentProvider;
       web3 = new Web3(web3.currentProvider);
+      return App.initContract();
     } else {
       // Specify default instance if no web3 instance provided
-      App.web3Provider = new Web3.providers.HttpProvider(
-        'http://localhost:7545'
-      ).enable();
-      web3 = new Web3(App.web3Provider);
+      try {
+        App.web3Provider = new Web3.providers.HttpProvider(
+          'http://localhost:7545'
+        ).enable();
+        web3 = new Web3(App.web3Provider);
+        return App.initContract();
+      } catch (e) {
+        console.log(e.message);
+      }
     }
-    return App.initContract();
   },
 
   initContract: function () {
@@ -54,10 +61,79 @@ App = {
       }
     });
   },
+
+  donate: function (donateAmount, callback) {
+    let user_address = App.account;
+
+    web3.eth.sendTransaction(
+      {
+        to: MY_ADDRESS,
+        from: user_address,
+        value: web3.toWei(donateAmount, 'ether'),
+      },
+      function (err, transactionHash) {
+        if (err) {
+          message = `Donation failed: ${err.message}`;
+          console.log(err.message);
+        } else {
+          message = 'Donation successful';
+        }
+        callback(message);
+      }
+    );
+  },
+
+  showDonateModal: function (callback) {
+    callback(App.account !== '0x0');
+  },
 };
 
 $(function () {
   $(window).load(function () {
     App.init();
   });
+
+  $('#donate-cta').click(function () {
+    App.showDonateModal(function (account) {
+      if (account) {
+        showModal();
+      } else {
+        showModal(
+          'You need to install <a href="https://metamask.io/">MetaMask</a> to continue the Donation.'
+        );
+      }
+    });
+  });
+
+  $('#pay').click(function () {
+    let amount = $('#amount').val();
+    $('#pay').attr('disabled', true);
+    App.donate(amount, function (message) {
+      showModal(message);
+    });
+  });
+
+  $('#amount').on('keyup', function () {
+    $('#pay').attr('disabled', !$('#amount').val().trim().length);
+  });
+
+  $('#donate-modal').click(function (e) {
+    if (e.target.id === 'donate-modal') {
+      $('#donate-modal').hide();
+    }
+  });
+
+  function showModal(message) {
+    if (message) {
+      $('#message').html(message);
+      $('#message').show();
+      $('#pay, #amount').hide();
+    } else {
+      $('#message').hide();
+      $('#amount').val('');
+      $('#pay, #amount').show();
+      $('#pay').attr('disabled', true);
+    }
+    $('#donate-modal').show();
+  }
 });

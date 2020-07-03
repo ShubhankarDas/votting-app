@@ -24,11 +24,12 @@
           <li><a href="/vote">Vote</a></li>
           <li class="active"><a href="/profile">Profile</a></li>
           <li><a href="/logout">Logout</a></li>
+          <li id="donate-cta" class="donate__cta btn btn-success">Donate</li>
         </ul>
       </div>
     </nav>
     <% if (typeof(message) !=="undefined") { %> <%- include('partials/alert',
-    {message}); %> <% } %>
+    {message}); %> <% } %> <%- include('partials/donateModal'); %>
     <div class="global-container">
       <div class="card" style="min-width: 600px;">
         <div class="card-body">

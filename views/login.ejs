@@ -23,11 +23,12 @@
         <ul>
           <li class="active"><a href="/">Login</a></li>
           <li><a href="/register">Register</a></li>
+          <li id="donate-cta" class="donate__cta btn btn-success">Donate</li>
         </ul>
       </div>
     </nav>
     <% if (typeof(message) !=="undefined") { %> <%- include('partials/alert',
-    {message}); %> <% } %>
+    {message}); %> <% } %> <%- include('partials/donateModal'); %>
     <div class="global-container">
       <div class="card login-form">
         <div class="card-body">
